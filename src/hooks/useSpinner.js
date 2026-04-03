@@ -12,11 +12,12 @@ function shuffle(arr) {
 }
 
 // Weighted timing buckets — simulates real Claude Code's irregular rhythm
+// Minimum display time is 500ms so verbs are always readable
 const TIMING_BUCKETS = [
-  { name: 'fast',    min: 60,  max: 150,  weight: 25 },
-  { name: 'normal',  min: 200, max: 500,  weight: 50 },
-  { name: 'hang',    min: 800, max: 2500, weight: 15 },
-  { name: 'stutter', min: 30,  max: 60,   weight: 10 },
+  { name: 'fast',    min: 500,  max: 800,  weight: 25 },
+  { name: 'normal',  min: 800,  max: 1500, weight: 50 },
+  { name: 'hang',    min: 2000, max: 4000, weight: 15 },
+  { name: 'stutter', min: 500,  max: 600,  weight: 10 },
 ];
 
 const TOTAL_WEIGHT = TIMING_BUCKETS.reduce((s, b) => s + b.weight, 0);
@@ -42,7 +43,7 @@ function pickBucket() {
 function rollDelay(speedScalar) {
   const bucket = pickBucket();
   const base = bucket.min + Math.random() * (bucket.max - bucket.min);
-  return { delay: Math.round(base * speedScalar), bucket };
+  return { delay: Math.max(500, Math.round(base * speedScalar)), bucket };
 }
 
 const BRAILLE_CHARS = ['\u280B', '\u2819', '\u2839', '\u2838', '\u283C', '\u2834', '\u2826', '\u2827', '\u2807', '\u280F'];
@@ -114,8 +115,8 @@ export function useSpinner(speed = 'normal') {
     let delay;
     if (stutterRemaining.current > 0) {
       stutterRemaining.current -= 1;
-      const base = 30 + Math.random() * 30; // 30–60ms
-      delay = Math.round(base * scalar);
+      const base = 500 + Math.random() * 200; // 500–700ms
+      delay = Math.max(500, Math.round(base * scalar));
     } else {
       const roll = rollDelay(scalar);
       delay = roll.delay;
