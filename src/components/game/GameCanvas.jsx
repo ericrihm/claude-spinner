@@ -78,7 +78,7 @@ export default function GameCanvas({ onBack }) {
 
   // Initialize audio
   useEffect(() => {
-    const audio = new Audio("/spatial_audio.mp3");
+    const audio = new Audio(import.meta.env.BASE_URL + "spatial_audio.mp3");
     audio.loop = true;
     audio.volume = 0.3;
     audioRef.current = audio;
