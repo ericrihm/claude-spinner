@@ -55,8 +55,9 @@ export default function App() {
     }
   }, [currentVerb, trackVerb]);
 
-  // Spacebar to pause
+  // Spacebar to pause (only in spinner mode)
   useEffect(() => {
+    if (mode !== 'spinner') return;
     const handler = (e) => {
       if (e.code === 'Space' && e.target === document.body) {
         e.preventDefault();
@@ -65,7 +66,7 @@ export default function App() {
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [togglePause]);
+  }, [togglePause, mode]);
 
   if (mode === 'game') {
     return (
