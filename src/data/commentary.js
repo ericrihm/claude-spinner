@@ -1,0 +1,58 @@
+export const COMMENTARY = {
+  gameStart: [
+    "Thinking... just kidding. Running.",
+    "Context window: your entire attention span",
+    "Loading personality... sarcasm module enabled",
+    "Initializing vibes...",
+  ],
+  verbCollected: [
+    "Adding to context window... wait, that's not how this works",
+    "This verb was mass produced ethically and sustainably",
+    "You're mass-harvesting verbs faster than an LLM training run",
+    "Anthropic legal has entered the chat",
+    "Another one for the training data",
+  ],
+  hazardHit: [
+    "Error: skill issue detected at runtime",
+    "Have you tried prompting better?",
+    "That verb was clearly labeled red. I can't help you.",
+    "Oops. Reticulating your remains...",
+    "Fatal: user exceeded vibe tolerance",
+    "Segmentation fault (core dumped). Just kidding. Mostly.",
+  ],
+  survivalStreak: [
+    "You've been thinking for a while. Everything okay?",
+    "Warning: approaching daily usage limit (just kidding... or am I?)",
+    "This session has been running for a while. Compacting context...",
+    "At this rate, you'll hit the context window limit by Thursday",
+    "You've used a lot of tokens on this. HR has been notified.",
+  ],
+  speedMilestone: [
+    "Entering extended thinking mode...",
+    "Rate limit approaching. Please slow down. (You can't.)",
+    "Switching to Haiku for cost efficiency...",
+    "Your subscription tier does not include this speed",
+  ],
+  gameOver: [
+    "Session terminated. Reason: insufficient vibes.",
+    "Your conversation has been compacted to: 'they tried.'",
+    "Goodbye. Your tokens have been recycled into training data.",
+    "Connection lost. The AI won. It always wins.",
+    "This interaction has been logged and will be used to make me funnier.",
+  ],
+  highScore: [
+    "New high score. Saving to MEMORY.md... just kidding, I forget everything.",
+    "Achievement unlocked: 'Probably Should Be Working'",
+    "Your score has been noted. It will not affect your Claude Pro billing.",
+  ],
+  specialVerbs: {
+    "Clauding": "Yes, that's me. You're welcome.",
+    "Philosophising": "Am I the game, or are you the game? Anyway, +1 point.",
+    "Moonwalking": "Smooth. Real smooth.",
+    "Booping": "Boop.",
+    "Lollygagging": "Same, honestly.",
+    "Bloviating": "I would never. *continues for 4,096 tokens*",
+    "Propagating": "A gift from the reef. \u{1FAB8}",
+    "Gitifying": "git commit -m 'nice jump'",
+  },
+};

@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'JetBrains Mono', monospace;
+  background-color: #0D1117;
+  color: #e6edf3;
+  margin: 0;
+}
+
+.crt-overlay {
+  position: relative;
+}
+
+.crt-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15) 0px,
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.ghost-line {
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.terminal-body::-webkit-scrollbar {
+  width: 6px;
+}
+.terminal-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.terminal-body::-webkit-scrollbar-thumb {
+  background: #30363D;
+  border-radius: 3px;
+}
+
+/* Verb Surf game animations */
+@keyframes jitter {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(1px, -1px); }
+  50% { transform: translate(-1px, 1px); }
+  75% { transform: translate(1px, 1px); }
+}
+
+.animate-jitter {
+  animation: jitter 0.15s infinite;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.8; }
+  94% { opacity: 1; }
+  96% { opacity: 0.9; }
+  97% { opacity: 1; }
+}
+
+.animate-flicker {
+  animation: flicker 3s infinite;
+}
