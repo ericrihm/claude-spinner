@@ -102,14 +102,14 @@ export function useScoreTracker() {
     tokensRef.current = 0;
     comboRef.current = 0;
     bestComboRef.current = 0;
-    livesRef.current = 3;
+    livesRef.current = 5;
     verbsCollectedRef.current = 0;
     uniqueVerbsRef.current = new Set();
     setTokens(0);
     setVerbsCollected(0);
     setCombo(0);
     setBestCombo(0);
-    setLives(3);
+    setLives(5);
     setPhase("Normal Session");
     setIsNewHighScore(false);
   }, []);
