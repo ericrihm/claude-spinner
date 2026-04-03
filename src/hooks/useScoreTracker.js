@@ -24,7 +24,7 @@ export function useScoreTracker() {
   const [verbsCollected, setVerbsCollected] = useState(0);
   const [combo, setCombo] = useState(0);
   const [bestCombo, setBestCombo] = useState(0);
-  const [lives, setLives] = useState(3);
+  const [lives, setLives] = useState(5);
   const [phase, setPhase] = useState("Normal Session");
   const [isNewHighScore, setIsNewHighScore] = useState(false);
 
@@ -32,7 +32,7 @@ export function useScoreTracker() {
   const tokensRef = useRef(0);
   const comboRef = useRef(0);
   const bestComboRef = useRef(0);
-  const livesRef = useRef(3);
+  const livesRef = useRef(5);
   const verbsCollectedRef = useRef(0);
 
   const addTokens = useCallback((amount) => {
@@ -102,14 +102,14 @@ export function useScoreTracker() {
     tokensRef.current = 0;
     comboRef.current = 0;
     bestComboRef.current = 0;
-    livesRef.current = 5;
+    livesRef.current = 7;
     verbsCollectedRef.current = 0;
     uniqueVerbsRef.current = new Set();
     setTokens(0);
     setVerbsCollected(0);
     setCombo(0);
     setBestCombo(0);
-    setLives(5);
+    setLives(7);
     setPhase("Normal Session");
     setIsNewHighScore(false);
   }, []);

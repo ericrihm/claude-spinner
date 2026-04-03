@@ -32,6 +32,7 @@ export default function App() {
     isPaused,
     togglePause,
     history,
+    currentBuddyIdx,
   } = useSpinner(activeSpeed);
 
   const {
@@ -99,23 +100,6 @@ export default function App() {
   return (
     <div className="min-h-screen bg-terminal-bg text-white font-mono">
       <div className="max-w-6xl mx-auto p-4 lg:p-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-2xl lg:text-3xl font-bold text-verb-active mb-2">
-            Claude Code Spinner
-          </h1>
-          <p className="text-verb-ghost text-sm">
-            187 verbs. One terminal. Infinite vibes.
-            <button
-              onClick={() => setMode('game')}
-              className="ml-3 text-verb-ghost hover:text-verb-active transition-colors cursor-pointer"
-              title="Play Verb Surf"
-            >
-              ▶ Play
-            </button>
-          </p>
-        </div>
-
         {/* Main Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
           {/* Left Column: Terminal + Controls */}
@@ -124,16 +108,20 @@ export default function App() {
               currentVerb={currentVerb}
               brailleChar={brailleChar}
               history={history}
+              currentBuddyIdx={currentBuddyIdx}
               isPaused={isPaused}
               crtEnabled={crtEnabled}
               titleText={easterEggs.titleText}
               specialEffect={easterEggs.specialEffect}
-              onVerbClick={(verb) => {
-                // Create a synthetic position since we don't have the event
-                setTooltipPos({ x: 100, y: 200 });
+              onVerbClick={(verb, e) => {
+                const rect = e?.target?.getBoundingClientRect();
+                if (rect) {
+                  setTooltipPos({ x: rect.left, y: rect.bottom + 8 });
+                }
                 setTooltipVerb(prev => prev === verb ? null : verb);
               }}
               onTitleClick={easterEggs.handleTitleClick}
+              onPlayGame={() => setMode('game')}
             />
 
             <SpinnerControls

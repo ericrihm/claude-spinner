@@ -4,6 +4,7 @@ const GRAVITY = 1400;
 const BASE_VELOCITY = -420;
 const MAX_CHARGE_BONUS = -350;
 const MAX_CHARGE_TIME = 400; // ms
+const DOUBLE_JUMP_VELOCITY = -250; // small boost to clear the last pixel
 
 export function useJumpPhysics() {
   const [y, setY] = useState(0);
@@ -17,6 +18,7 @@ export function useJumpPhysics() {
   const chargingRef = useRef(false);
   const chargeStartRef = useRef(0);
   const chargeRafRef = useRef(null);
+  const hasDoubleJumpedRef = useRef(false);
 
   // Continuously update charge progress while charging
   const updateChargeProgress = useCallback(() => {
@@ -27,7 +29,13 @@ export function useJumpPhysics() {
   }, []);
 
   const startCharge = useCallback(() => {
-    if (!groundedRef.current) return;
+    // Double jump: small boost if airborne and haven't used it yet
+    if (!groundedRef.current && !hasDoubleJumpedRef.current && !chargingRef.current) {
+      hasDoubleJumpedRef.current = true;
+      velocityRef.current = DOUBLE_JUMP_VELOCITY;
+      return;
+    }
+    if (!groundedRef.current || chargingRef.current) return;
     chargingRef.current = true;
     chargeStartRef.current = Date.now();
     setIsCharging(true);
@@ -64,6 +72,7 @@ export function useJumpPhysics() {
       velocityRef.current = 0;
       if (!groundedRef.current) {
         groundedRef.current = true;
+        hasDoubleJumpedRef.current = false;
         setIsGrounded(true);
       }
     }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const BRAILLE_FRAMES = ["\u280B", "\u2819", "\u2839", "\u2838", "\u283C", "\u2834", "\u2826", "\u2827", "\u2807", "\u280F"];
 
@@ -11,8 +11,20 @@ const TYPE_COLORS = {
 
 export default function VerbBlock({ verb, x, type, icon, consumed, hit, height }) {
   const [brailleIdx, setBrailleIdx] = useState(() => Math.floor(Math.random() * BRAILLE_FRAMES.length));
+  const [showClearFlash, setShowClearFlash] = useState(false);
+  const wasConsumed = useRef(false);
   const color = TYPE_COLORS[type] || TYPE_COLORS.collectible;
   const isResolved = consumed || hit;
+
+  // Trigger clear flash when verb is first consumed
+  useEffect(() => {
+    if (consumed && !wasConsumed.current) {
+      wasConsumed.current = true;
+      setShowClearFlash(true);
+      const timer = setTimeout(() => setShowClearFlash(false), 400);
+      return () => clearTimeout(timer);
+    }
+  }, [consumed]);
 
   // Cycle braille spinner at end of each verb
   useEffect(() => {
@@ -44,6 +56,17 @@ export default function VerbBlock({ verb, x, type, icon, consumed, hit, height }
         />
       )}
 
+      {/* Clear flash effect */}
+      {showClearFlash && (
+        <div
+          className="absolute inset-0 -inset-x-2 -inset-y-1"
+          style={{
+            background: "radial-gradient(ellipse, #4ADE8044, transparent 70%)",
+            animation: "clearFlash 400ms ease-out forwards",
+          }}
+        />
+      )}
+
       {/* Horizontal verb text at ground level */}
       <div
         className={`font-mono whitespace-nowrap ${
@@ -52,13 +75,16 @@ export default function VerbBlock({ verb, x, type, icon, consumed, hit, height }
         style={{
           color: isResolved ? (hit ? "#EF444433" : "#4ADE8022") : color,
           textShadow:
-            type === "golden" && !isResolved
+            showClearFlash
+              ? "0 0 8px #4ADE80, 0 0 16px #4ADE8088"
+              : type === "golden" && !isResolved
               ? `0 0 6px ${color}, 0 0 12px ${color}`
               : type === "hazard" && !isResolved
               ? `0 0 4px ${color}88`
               : "none",
           fontSize: type === "powerup" ? 16 : 13,
-          transition: isResolved ? "color 0.3s" : "none",
+          transition: isResolved ? "color 0.3s, text-shadow 0.3s" : "none",
+          transform: showClearFlash ? "scale(1.15)" : "scale(1)",
         }}
       >
         {type === "powerup" ? (
@@ -70,6 +96,9 @@ export default function VerbBlock({ verb, x, type, icon, consumed, hit, height }
               <span style={{ opacity: 0.5, marginLeft: 2 }}>
                 {BRAILLE_FRAMES[brailleIdx]}
               </span>
+            )}
+            {showClearFlash && (
+              <span style={{ marginLeft: 4, fontSize: 10, color: "#4ADE80" }}>✓</span>
             )}
           </>
         )}

@@ -319,7 +319,7 @@ export default function GameCanvas({ onBack }) {
 
             updatedV.hit = true;
             setIsHit(true);
-            hitCooldownRef.current = 1.0;
+            hitCooldownRef.current = 1.8;
 
             const gameOver = score.hitHazard();
             triggerCommentary("hazardHit", true);
@@ -328,7 +328,7 @@ export default function GameCanvas({ onBack }) {
               setGameOverStats(score.getGameOverStats());
               setGameState("over");
               gameLoop.stop();
-              if (audioRef.current) audioRef.current.pause();
+              // Music keeps playing through game over screen
               return;
             }
 
@@ -426,6 +426,7 @@ export default function GameCanvas({ onBack }) {
         e.code === "KeyW"
       ) {
         e.preventDefault();
+        if (e.repeat) return;
         if (gameState === "ready") {
           startGame();
           return;
@@ -436,10 +437,12 @@ export default function GameCanvas({ onBack }) {
         e.preventDefault();
         if (gameState === "playing") {
           gameLoop.stop();
-          if (audioRef.current) audioRef.current.pause();
+          // Music keeps playing through game over screen
           setGameOverStats(score.getGameOverStats());
           setGameState("over");
         } else {
+          // Only stop music when fully exiting back to spinner
+          if (audioRef.current) audioRef.current.pause();
           onBack();
         }
       }
@@ -652,7 +655,10 @@ export default function GameCanvas({ onBack }) {
               stats={gameOverStats}
               elapsed={gameLoop.elapsed}
               onPlayAgain={startGame}
-              onBack={onBack}
+              onBack={() => {
+                if (audioRef.current) audioRef.current.pause();
+                onBack();
+              }}
             />
           )}
         </div>
